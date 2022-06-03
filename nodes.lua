@@ -252,7 +252,6 @@ minetest.register_node("caverealms:stone_with_moss", {
 	tiles = {"default_cobble.png^caverealms_moss.png", "default_cobble.png", "default_cobble.png^caverealms_moss_side.png"},
 	is_ground_content = true,
 	groups = {crumbly=1, cracky=3},
-	drop = 'default:cobble',
 	sounds = default.node_sound_dirt_defaults({
 		footstep = {name="default_grass_footstep", gain=0.25},
 	}),
@@ -264,7 +263,6 @@ minetest.register_node("caverealms:stone_with_lichen", {
 	tiles = {"default_cobble.png^caverealms_lichen.png", "default_cobble.png", "default_cobble.png^caverealms_lichen_side.png"},
 	is_ground_content = true,
 	groups = {crumbly=1, cracky=3},
-	drop = 'default:cobble',
 	sounds = default.node_sound_dirt_defaults({
 		footstep = {name="default_grass_footstep", gain=0.25},
 	}),
@@ -276,7 +274,6 @@ minetest.register_node("caverealms:stone_with_algae", {
 	tiles = {"default_cobble.png^caverealms_algae.png", "default_cobble.png", "default_cobble.png^caverealms_algae_side.png"},
 	is_ground_content = true,
 	groups = {crumbly=1, cracky=3},
-	drop = 'default:cobble',
 	sounds = default.node_sound_dirt_defaults({
 		footstep = {name="default_grass_footstep", gain=0.25},
 	}),
