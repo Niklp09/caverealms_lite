@@ -1,3 +1,4 @@
+
 local CONFIG_FILE_PREFIX = "caverealms."
 
 caverealms.config = {}
@@ -5,7 +6,9 @@ caverealms.config = {}
 -- This function based on kaeza/minetest-irc/config.lua and used under the
 -- terms of BSD 2-clause license.
 local function setting(stype, name, default)
+
 	local value
+
 	if stype == "bool" then
 		value = minetest.settings:get_bool(CONFIG_FILE_PREFIX..name)
 	elseif stype == "string" then
@@ -13,14 +16,16 @@ local function setting(stype, name, default)
 	elseif stype == "number" then
 		value = tonumber(minetest.settings:get(CONFIG_FILE_PREFIX..name))
 	end
+
 	if value == nil then
 		value = default
 	end
+
 	caverealms.config[name] = value
 end
 
 --generation settings
-setting("number", "ymin", -33000) --bottom realm limit
+setting("number", "ymin", -27000) --bottom realm limit (was -30000)
 setting("number", "ymax", -1500) --top realm limit
 setting("number", "tcave", 0.75) --cave threshold
 
@@ -47,7 +52,7 @@ setting("number", "dm_top", -14000) --upper limit
 setting("number", "dm_bot", -16000) --lower limit
 
 --should DMs spawn in DM Lair?
-setting("bool", "dm_spawn", true) 
+setting("bool", "dm_spawn", true)
 
 --Deep cave settings
 setting("number", "deep_cave", -7000) -- upper limit

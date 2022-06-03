@@ -1,4 +1,5 @@
 default
-stairs
+fire?
 ethereal?
+stairs?
 mobs?

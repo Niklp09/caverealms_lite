@@ -1,9 +1,14 @@
---thin ice to water
+--reverse craft for glow mese
+minetest.register_craft({
+	output = "default:mese_crystal_fragment 8",
+	recipe = {{"caverealms:glow_mese"}}
+})
+
+--[[thin ice to water
 minetest.register_craft({
 	output = "default:water_source",
-	type = "shapeless",
-	recipe = {"caverealms:thin_ice"}
-})
+	recipe = {{"caverealms:thin_ice"}}
+})]]
 
 --use for coal dust
 minetest.register_craft({
@@ -62,40 +67,54 @@ minetest.register_craft({
 -- Requires ethereal:fish_raw
 if minetest.get_modpath("ethereal") then
 
+	local ethereal_fish = {
+		{"ethereal:fish_chichlid"},
+		{"ethereal:fish_bluefin"},
+		{"ethereal:fish_clownfish"}
+	}
+
+	-- Used when right-clicking with fishing rod to check for worm and bait rod
+	local rod_use = function(itemstack, placer, pointed_thing)
+
+		local inv = placer:get_inventory()
+
+		if inv:contains_item("main", "caverealms:glow_bait") then
+
+			inv:remove_item("main", "caverealms:glow_bait")
+
+			return ItemStack("caverealms:angler_rod_baited")
+		end
+	end
+
 	-- Professional Fishing Rod
 	minetest.register_craftitem("caverealms:angler_rod", {
 		description = "Pro Fishing Rod",
 		inventory_image = "caverealms_angler_rod.png",
-		wield_image = "caverealms_angler_rod.png"
+		wield_image = "caverealms_angler_rod.png",
+		on_place = rod_use,
+		on_secondary_use = rod_use
 	})
 
 	minetest.register_craft({
 		output = "caverealms:angler_rod",
 		recipe = {
-				{"","","default:steel_ingot"},
-				{"", "default:steel_ingot", "caverealms:mushroom_gills"},
-				{"default:steel_ingot", "", "caverealms:mushroom_gills"},
-			}
+			{"","","default:steel_ingot"},
+			{"", "default:steel_ingot", "caverealms:mushroom_gills"},
+			{"default:steel_ingot", "", "caverealms:mushroom_gills"},
+		}
 	})
 
 	-- Glow Bait
 	minetest.register_craftitem("caverealms:glow_bait", {
 		description = "Glow Bait",
 		inventory_image = "caverealms_glow_bait.png",
-		wield_image = "caverealms_glow_bait.png",
+		wield_image = "caverealms_glow_bait.png"
 	})
 
 	minetest.register_craft({
 		output = "caverealms:glow_bait 9",
-		recipe = {
-				{"caverealms:glow_worm_green"},
-			}
+		recipe = {{"caverealms:glow_worm_green"}}
 	})
-
-	-- default ethereal fish
-	local fish = {
-		{"ethereal:fish_raw"},
-	}
 
 	-- Pro Fishing Rod (Baited)
 	minetest.register_craftitem("caverealms:angler_rod_baited", {
@@ -115,31 +134,26 @@ if minetest.get_modpath("ethereal") then
 
 			if (node == "default:water_source"
 			or node == "default:river_water_source")
-			and math.random(1, 100) < 35 then
+			and math.random(100) < 35 then
 
-				local type = fish[math.random(1, #fish)][1]
+				local type = ethereal_fish[math.random(#ethereal_fish)][1]
 				local inv = user:get_inventory()
 
 				if inv:room_for_item("main", {name = type}) then
 
 					inv:add_item("main", {name = type})
 
-					if (math.random() < 0.6) then
-						return ItemStack("caverealms:angler_rod_baited")
-					else
-						return ItemStack("caverealms:angler_rod")
-					end
+					return ItemStack("caverealms:angler_rod")
 				else
 					minetest.chat_send_player(user:get_player_name(),
 						"Inventory full, Fish Got Away!")
 				end
 			end
-		end,
+		end
 	})
 
 	minetest.register_craft({
-		type = "shapeless",
 		output = "caverealms:angler_rod_baited",
-		recipe = {"caverealms:angler_rod", "caverealms:glow_bait"},
+		recipe = {{"caverealms:angler_rod", "caverealms:glow_bait"}}
 	})
 end
